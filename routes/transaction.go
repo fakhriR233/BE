@@ -20,4 +20,5 @@ func TransactionRoutes(r *mux.Router) {
   r.HandleFunc("/transaction", middleware.Auth(h.UpdateTransaction)).Methods("PATCH")
   r.HandleFunc("/transaction/{id}", h.DeleteTransaction).Methods("DELETE")
 	r.HandleFunc("/transaction-status", middleware.Auth(h.FindbyIDTransaction)).Methods("GET")
+  r.HandleFunc("/notification", h.Notification).Methods("POST")
 }

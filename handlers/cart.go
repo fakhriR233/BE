@@ -204,7 +204,12 @@ func (h *handlerCart) FindCartsByTransaction(w http.ResponseWriter, r *http.Requ
 	userId := int(userInfo["id"].(float64))
 
 	transaction, err := h.CartRepository.GetTransactionID(userId)
-	cart, err := h.CartRepository.FindCartsTransaction(int(transaction.ID))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}
+		json.NewEncoder(w).Encode(response)
+	}
+	cart, err := h.CartRepository.FindCartsTransaction(transaction.ID)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusBadRequest, Message: err.Error()}

@@ -14,6 +14,7 @@ func BookRoutes(r *mux.Router) {
   h := handlers.HandlerBook(bookRepository)
 
   r.HandleFunc("/books", h.FindBooks).Methods("GET")
+  r.HandleFunc("/booke", h.FindBook).Methods("GET")
   r.HandleFunc("/book/{id}", h.GetBook).Methods("GET")
   r.HandleFunc("/book", middleware.Auth(middleware.UploadPDF(middleware.UploadFile(h.CreateBook)))).Methods("POST")
 //   r.HandleFunc("/book/{id}", h.UpdateBook).Methods("PATCH")

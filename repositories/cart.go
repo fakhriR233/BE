@@ -55,12 +55,12 @@ func (r *repository) DeleteCart(cart models.Cart, ID int) (models.Cart, error) {
 
 func (r *repository) GetTransactionID(TransactionID int) (models.Transaction, error) {
 	var transaction models.Transaction
-	err := r.db.Preload("User").Preload("Cart").Preload("Cart.Book").Where("user_id = ?", TransactionID).First(&transaction).Error
+	err := r.db.Preload("User").Preload("Cart").Preload("Cart.Book").Where("user_id = ? AND status = ?", TransactionID, "Active").First(&transaction).Error
 	return transaction, err
 }
 
 func (r *repository) CreateTransactionID(transaction models.Transaction) (models.Transaction, error) {
-	err := r.db.Preload("User").Preload("Cart").Preload("Book").Create(&transaction).Error
+	err := r.db.Preload("User").Preload("Book").Create(&transaction).Error
 
 	return transaction, err
 }

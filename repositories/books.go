@@ -8,6 +8,7 @@ import (
 
 type BookRepository interface {
 	FindBooks() ([]models.Book, error)
+	FindBook() ([]models.Book, error)
 	GetBook(ID int) (models.Book, error)
 	CreateBook(book models.Book) (models.Book, error)
 	DeleteBook(book models.Book, ID int) (models.Book, error)
@@ -20,6 +21,13 @@ func RepositoryBook(db *gorm.DB) *repository {
 func (r *repository) FindBooks() ([]models.Book, error) {
 	var books []models.Book
 	err := r.db.Find(&books).Error
+
+	return books, err
+}
+
+func (r *repository) FindBook() ([]models.Book, error) {
+	var books []models.Book
+	err := r.db.Limit(10).Find(&books).Error
 
 	return books, err
 }
